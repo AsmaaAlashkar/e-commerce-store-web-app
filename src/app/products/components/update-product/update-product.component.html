@@ -1,0 +1,62 @@
+<div class="container mx-auto p-5 max-w-screen-xl">
+    <h2 class="text-2xl font-semibold mb-4">Update Product</h2>
+  
+    <mat-spinner *ngIf="isLoading" class="block mx-auto my-10"></mat-spinner>
+
+    <form *ngIf="updateProductForm" [formGroup]="updateProductForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" type="text" required />
+        <mat-error *ngIf="updateProductForm.controls['title'].hasError('required')">
+          Title is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" type="number" required />
+        <mat-error *ngIf="updateProductForm.controls['price'].hasError('required')">
+          Price is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" required></textarea>
+        <mat-error *ngIf="updateProductForm.controls['description'].hasError('required')">
+          Description is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Category</mat-label>
+        <input matInput formControlName="category" type="text" required />
+        <mat-error *ngIf="updateProductForm.controls['category'].hasError('required')">
+          Category is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Image URL</mat-label>
+        <input matInput formControlName="image" type="url" required />
+        <mat-error *ngIf="updateProductForm.controls['image'].hasError('required')">
+          Image URL is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Rating</mat-label>
+        <input matInput formControlName="rating" type="number" min="1" max="5" required />
+        <mat-error *ngIf="updateProductForm.controls['rating'].hasError('required')">
+          Rating is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <div class="flex justify-center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="updateProductForm.invalid" class="w-full py-2 px-4">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+  

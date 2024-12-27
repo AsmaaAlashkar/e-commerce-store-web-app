@@ -1,0 +1,75 @@
+<div class="container relative p-5 max-w-screen-xl mx-auto">
+  <h2 class="text-2xl font-semibold mb-4">All Products</h2>
+
+  <div class="flex justify-end mb-4">
+    <button mat-raised-button color="primary" [routerLink]="'/products/add-product'" class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+      Add Product
+    </button>
+  </div>
+
+  <mat-spinner *ngIf="isLoading" color="primary" class="absolute inset-0 m-auto" style="width: 50px; height: 50px;"></mat-spinner>
+
+  <div class="overflow-x-auto flex justify-center">
+    <table *ngIf="!isLoading" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-full table-auto mt-4">
+    
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left"> ID </th>
+        <td mat-cell *matCellDef="let product" class="px-4 py-2"> {{product.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left"> Title </th>
+        <td mat-cell *matCellDef="let product" class="px-4 py-2"> {{product.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left"> Category </th>
+        <td mat-cell *matCellDef="let product" class="px-4 py-2"> {{product.category}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left"> Price </th>
+        <td mat-cell *matCellDef="let product" class="px-4 py-2"> ${{product.price}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left"> Image </th>
+        <td mat-cell *matCellDef="let product" class="px-4 py-2">
+          <img [src]="product.image" alt="{{product.title}}" width="50" class="rounded-lg" />
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rating">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left"> Rating </th>
+        <td mat-cell *matCellDef="let product" class="px-4 py-2">
+          {{product.rating.rate}} ({{product.rating.count}} reviews)
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left"> Actions </th>
+        <td mat-cell *matCellDef="let product" class="px-4 py-2">
+          <div class="flex space-x-2">
+            <button mat-icon-button [routerLink]="['/products/product-details', product.id]">
+              <mat-icon>
+                <i class="fa-solid fa-eye text-green-500 hover:text-green-700 text-lg"></i>
+              </mat-icon>
+            </button>
+            <button mat-icon-button [routerLink]="['/products/update-product', product.id]">
+              <mat-icon><i class="fa-solid fa-pen text-blue-500 hover:text-blue-700 text-lg"></i></mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="openDeleteDialog(product.id)">
+              <mat-icon><i class="fa-solid fa-trash text-red-500 hover:text-red-700 text-lg"></i></mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator *ngIf="!isLoading" [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons class="mt-4"></mat-paginator>
+</div>

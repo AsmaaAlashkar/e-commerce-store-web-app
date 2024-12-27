@@ -30,11 +30,16 @@
   
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Category</mat-label>
-        <input matInput formControlName="category" type="text" required />
+        <mat-select formControlName="category" required>
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </mat-option>
+        </mat-select>
         <mat-error *ngIf="updateProductForm.controls['category'].hasError('required')">
           Category is required.
         </mat-error>
       </mat-form-field>
+      
   
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Image URL</mat-label>

@@ -1,9 +1,12 @@
 <div class="container mx-auto p-5 max-w-screen-lg">
+  
   <div *ngIf="isLoading" class="flex justify-center items-center h-64">
     <mat-spinner color="primary" class="w-16 h-16"></mat-spinner>
   </div>
 
+  
   <div *ngIf="!isLoading" class="space-y-8">
+    
     <div class="categories-list">
       <h3 class="text-2xl font-semibold mb-4 text-gray-800">Categories:</h3>
       <div class="flex flex-wrap gap-4">
@@ -11,7 +14,7 @@
           mat-raised-button
           *ngFor="let category of categories"
           (click)="displayProducts(category)"
-          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          class="px-6 py-3 text-lg font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none transition"
         >
           {{ category }}
         </button>
@@ -21,27 +24,33 @@
     <div *ngIf="products.length > 0" class="products-list">
       <h3 class="text-2xl font-semibold mb-4 text-gray-800">Products:</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <mat-card *ngFor="let product of products" class="shadow-md hover:shadow-lg transition">
-          <mat-card-header>
-            <mat-card-title class="text-lg font-medium">{{ product.title }}</mat-card-title>
+
+        <mat-card
+          *ngFor="let product of products"
+          class="shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105"
+        >
+          <mat-card-header class="bg-gray-100 p-4">
+            <mat-card-title class="text-lg font-semibold text-gray-800">{{ product.title }}</mat-card-title>
           </mat-card-header>
+
           <img
             mat-card-image
             [src]="product.image"
             [alt]="product.title"
-            class="object-contain h-48 w-full"
+            class="object-cover h-48 w-full transition-transform duration-300 ease-in-out hover:scale-105"
           />
-          <mat-card-content>
-            <p class="text-gray-700 font-medium text-lg">
-              {{ product.price | currency }}
-            </p>
+
+          <mat-card-content class="p-4">
+            <p class="text-lg font-medium text-gray-700">{{ product.price | currency }}</p>
           </mat-card-content>
-          <mat-card-actions class="flex justify-end">
+
+          <mat-card-actions class="flex justify-between p-4 bg-gray-50">
             <button
               mat-button
               color="primary"
               [routerLink]="['/products/product-details', product.id]"
-            >
+              class="py-2 px-6 text-sm font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-200 focus:outline-none focus:ring-4 focus:ring-blue-300"
+              >
               View Details
             </button>
           </mat-card-actions>

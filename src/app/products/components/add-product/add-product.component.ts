@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { Router } from '@angular/router';
 import { Product } from '../../../models/product';
+import { CategoryService } from '../../../categories/services/category.service';
 
 @Component({
   selector: 'app-add-product',
@@ -11,10 +12,12 @@ import { Product } from '../../../models/product';
 })
 export class AddProductComponent implements OnInit{
   addProductForm!: FormGroup;
+  categories: string[] = [];
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private categoryService:CategoryService,
     private router: Router
   ) {}
 
@@ -27,15 +30,25 @@ export class AddProductComponent implements OnInit{
       image: ['', [Validators.required, Validators.pattern('https?://.+')]],
       rating: ['', [Validators.required, Validators.min(1), Validators.max(5)]]
     });
+
+    this.categoryService.getCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+      },
+      error: (error) => {
+        console.error('Error fetching categories', error);
+      }
+    });
   }
+
   onSubmit(): void {
     if (this.addProductForm.valid) {
       const newProduct: Product = this.addProductForm.value;
 
       this.productService.addProduct(newProduct).subscribe({
-        next:(response) => {
+        next: (response) => {
           console.log('Product added successfully', response);
-          this.router.navigate(['/products']); 
+          this.router.navigate(['/products']);
         },
         error: (error) => {
           console.error('Error adding product', error);
